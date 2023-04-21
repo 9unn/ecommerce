@@ -1,0 +1,240 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width", initial-scale="1.0">
+        <title> PHEFLUFFY Official</title>
+        <link rel="stylesheet" href="{% static 'style.css'%}">
+        <link rel="stylesheet" href="{% static 'images/MagicEraser_5660418_164818.PNG'%}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/fontawesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0">
+        
+        
+    </head>
+    <body>
+        
+        <div class="header">
+
+            <div class="containner">
+                <div class="navbar">
+                    <div class="logo">
+                        <a href="{% url 'myapp:Home'%}">
+                        <img src="{% static 'images/MagicEraser_5660418_164818.PNG' %}" width="125px"></a>
+                    </div>
+                    <nav>
+                        <ul id="MenuItems">
+                            <li><a href="{% url 'myapp:Home'%}">Home</a></li>
+                            <li><a href="{% url 'myapp:products'%}">Products</a></li>
+                            <li><a href="{% url 'myapp:about'%}">About</a></li>
+                            <li><a href="{% url 'myapp:account'%}">Account</a></li>
+                        </ul>
+                    </nav>
+                    <a href="{% url 'myapp:cart'%}">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1413/1413908.png" width="30px" height="30px" class="cart-img"></a>
+                    <img src="{% static 'images/menu_FILL0_wght400_GRAD0_opsz40.png' %}" class="menu-icon" onclick="menutoggle()">
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <h1>Let's go baby</h1>
+                        <p>“Discover your style and elevate your wardrobe with just a click”</p>
+                        <a href="{% url 'myapp:products' %}" class="btn">Click!</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!-- ------- promotion -------- -->
+            <div class="promotion">
+                <div class="small-container">
+                
+                    <div class="row">
+                        <div class="col-3">
+                            <img src="{% static 'images/S__55623699.jpg'%}">
+                        </div>
+                        <div class="col-3">
+                            <img src="{% static 'images/S__55623700.jpg' %}">
+                        </div>
+                        <div class="col-3">
+                            <img src="{% static 'images/S__55623701.jpg' %}">
+                        </div> 
+                    </div>
+                    
+                </div>
+            </div>
+
+<!-- ----------featured Products------------ -->
+
+             <div class="small-container">
+                <h2 class="title">Best Seller</h2>
+
+                {% for b in bestseller%}
+                <div class="row">
+                    <div class="col-4">
+                        <img src="https://d.line-scdn.net/obs/r/ect/ect/image_165577979268402309819cc5425t0fed58c0">
+                        <h4>{{b.title}}</h4>
+                        <p>{{b.seller_price}}</p>
+                    </div>
+                
+                    {% comment %} <div class="col-4">
+                        <img src="https://d.line-scdn.net/obs/r/ect/ect/image_164915288154689336619c92043t0f883a61">
+                        <h4>Fluffy short pants (Cream)</h4>
+                        <p>250 ฿</p>
+                    </div>
+                    <div class="col-4">
+                        <img src="https://obs.line-scdn.net/r/ect/ect/image_165335775119581928219cb4124t0fc863a7">
+                        <h4>Gummy pants (Light blue)</h4>
+                        <p>300 ฿</p>
+                    </div>
+                    <div class="col-4">
+                        <img src="https://obs.line-scdn.net/r/ect/ect/image_164412334886391344819ca9849t0f3b7bc4">
+                        <h4>Red rose T-shirt</h4>
+                        <p>300 ฿</p>
+                    </div> {% endcomment %}
+                </div>
+                {% endfor %}
+
+                <h2 class="title">New Arrivals</h2>
+
+                {% for n in new%}
+                <div class="row">
+                    <div class="col-4">
+                        <img src="https://obs.line-scdn.net/r/ect/ect/image_166234801350054108219d21848t105191dd">
+                        <h4>{{n.title}}</h4>
+                        <p>{{n.selling_price}}</p>
+                    </div>
+                    {% comment %} <div class="col-4">
+                        <img src="https://d.line-scdn.net/obs/r/ect/ect/image_166329059916372690619cb6271t105ff3d7">
+                        <h4>Tiny top (Blue)</h4>
+                        <p>250 ฿</p>
+                    </div>
+                    <div class="col-4">
+                        <img src="https://d.line-scdn.net/lcp-prod-photo/20211215_27/1639537527480rOC9s_JPEG/RPH2Z60K8IV8EJI5F03788UWK6356C.jpeg">
+                        <h4>Jelly short pants (Black)</h4>
+                        <p>260 ฿</p>
+                    </div>
+                    <div class="col-4">
+                        <img src="https://d.line-scdn.net/lcp-prod-photo/20210704_100/1625399806174wmF4d_JPEG/IKBUKNQOW9ZPZPCWTUMXVITGN81NU5.jpeg">
+                        <h4>Cool girl crop (Black)</h4>
+                        <p>139 ฿</p>
+                    </div>
+                    <div class="col-4">
+                        <img src="https://obs.line-scdn.net/r/ect/ect/image_164826821992954093719d03061t0f7abaab">
+                        <h4>Choco teddy crop</h4>
+                        <p>270 ฿</p>
+                    </div>
+                    <div class="col-4">
+                        <img src="https://d.line-scdn.net/obs/r/ect/ect/image_164264868559092405219cb8110t0f24fb5d">
+                        <h4>Tennis skirt (White)</h4>
+                        <p>260 ฿</p>
+                    </div>
+                    <div class="col-4">
+                        <img src="https://d.line-scdn.net/obs/r/ect/ect/image_164415505203302031519c95036t0f3bf79c">
+                        <h4>Judy crop (Brownie)</h4>
+                        <p>250 ฿</p>
+                    </div>
+                    <div class="col-4">
+                        <img src="https://obs.line-scdn.net/r/ect/ect/image_164921569876900746319c99284t0f892fc2">
+                        <h4>Love me love my cat crop</h4>
+                        <p>270 ฿</p>
+                    </div> {% endcomment %}
+                </div>
+                {% endfor %}
+             </div>
+<!-- --------- offer--------- -->
+            <div class="offer">
+                <div class="small-container">
+                    <div class="row">
+                        <div class="col-2">
+                            <img src="https://d.line-scdn.net/obs/r/ect/ect/image_164238751406681032019cd4890t0f20ff2a" class="offer-img"> 
+                        </div>
+                        <div class="col-2-detail">
+                            <p>Exclusively Available on PHEFLUFFY</p>
+                            <h1>Mandarin collar</h1>
+                            <small>and roller coaster kinda rush and i never knew i could feel that much and that's the way i loved you</small>
+                            <br>
+                            <a href="{% url 'myapp:productdetail'%}">Buy Now &#8594;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<!-- -------- testimonial ------
+            <div class="testimonial">
+                <div class="small-container">
+                    <div class="col-3">
+                        <p>I miss your tan skin your sweet smile so good to me so right and how you held me in your arms that september night the first time you ever saw me cry</p>
+                    </div>
+                </div>
+            </div>
+------ brands ------ 
+            <div class="brands">
+                <div class="small-container">
+                    <div class="row">
+                        <div class="col-5">
+                            <img src="" alt="">
+                        </div>
+                        <div class="col-5">
+                            <img src="" alt="">
+                        </div>
+                        <div class="col-5">
+                            <img src="" alt="">
+                        </div>
+                        <div class="col-5">
+                            <img src="" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+<!-- -----footer---- -->
+            <section id="footer">
+                <img src="{% static 'images/MagicEraser_5660418_164818.PNG' %}" class="footer-img">
+                <div class="title-text">
+                <p>Contact us</p>
+                </div>
+            <div class="footer-row">
+            <div class="footer-left">
+                <h1>Account</h1>
+                <a href="{% url 'myapp:account'%}"><p>Login</p></a>
+                <a href="{% url 'myapp:account'%}"><p>Register</p></a>
+            </div>
+            <div class="footer-right">
+                <h1>Get In Touch</h1>
+                <p>address</p>
+                <p>email</p>
+                <p>tel</p>
+            </div>
+            </div>
+
+            <div class="social-links">
+                <a href="https://www.facebook.com/Phefluffy-110994267269264/"><i class="fa-brands fa-square-facebook fa-xl"></i></a>
+                <a href="https://www.instagram.com/phefluffy/"><i class="fa-brands fa-instagram fa-xl"></i></a>
+                <a href="https://shop.line.me/@317lcvbv"><i class="fa-brands fa-line fa-xl"></i></a>
+                <p>Copyright - PHEFLUFFY Officials</p>
+            </div>
+
+            </section>
+<!-- ---------js for toggle menu ---------- -->
+            <script>
+                var MenuItems = document.getElementById("MenuItems");
+
+                MenuItems.style.maxHeight = "0px"
+
+                function menutoggle(){
+                    if(MenuItems.style.maxHeight = "0px")
+                    {
+                        MenuItems.style.maxHeight = "200px";
+                    }
+                    else
+                    {
+                        MenuItems.style.maxHeight = "0px";
+                    }
+                }
+            </script>
+        <script src="script.js"></script>
+    </body>
+</html>
