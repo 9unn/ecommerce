@@ -21,7 +21,6 @@ CATEGORY_CHOICES = (
 )
 
 
-
 class Product(models.Model):
     title = models.CharField(max_length=100)
     selling_price = models.PositiveIntegerField()
@@ -35,7 +34,7 @@ class Product(models.Model):
         return self.title
     
     def get_absolute_url(self):
-        return reverse ("website:product", kwargs={'slug':self.slug})
+        return reverse ("myapp:products", kwargs={'slug':self.slug})
     
 
 class Customer(models.Model):
@@ -113,4 +112,8 @@ class new(models.Model):
    
     def __str__(self):
         return self.title
+    
+class Order(models.Model):
+    order_ids = models.PositiveBigIntegerField()
+    selling_price = models.PositiveBigIntegerField()
     

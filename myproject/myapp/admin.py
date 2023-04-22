@@ -38,12 +38,6 @@ class PaymentModelAdmin(admin.ModelAdmin):
     #     link = reverse("admin:app_payment_change", args=[obj.product.pk])
     #     return format_html('<a href="{}">{}</a>', link, obj.product.title)
 
-# @admin.register(Wishlist)
-# class WishlistModelAdmin(admin.ModelAdmin):
-#     list_display = ['id','user','product']  
-    # def product(self,obj):
-    #     link = reverse("admin:app_product_change", args=[obj.product.pk])
-    #     return format_html('<a href="{}">{}</a>', link, obj.product.title)
 
 admin.site.unregister(Group)
 

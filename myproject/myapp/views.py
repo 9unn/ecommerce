@@ -4,11 +4,14 @@ from .forms import LoginForm, RegForm
 from django.http import HttpResponse
 from . import forms,models
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.shortcuts import render,redirect, get_object_or_404
 
 
-def login_view(request):
+
+def login(request):
    if request.method == "POST": 
-       form = LoginForm(request.POST) 
+       LoginForm = LoginForm(request.POST) 
+       LoginForm =forms.LoginForm(request.POST, request.FILES)
        if form.is_valid(): 
             print('Username:', form.cleaned_data['Username'])
             print('Password:',form.cleaned_data['Password'])
@@ -19,9 +22,10 @@ def login_view(request):
 
    return render(request, "account.html", {'form':form})
 
-def reg_view(request):
+def reg(request):
    if request.method == "POST": 
-       form = RegForm(request.POST) 
+       RegForm = RegForm(request.POST) 
+       RegForm =forms.RegForm(request.POST, request.FILES)
        if form.is_valid(): 
             print('Username:', form.cleaned_data['Username'])
             print('Email:', form.cleaned_data['Email']) 
@@ -43,10 +47,22 @@ def account(request):
     return render(request, "account.html", {'account':account})
 
 def cart(request):
+    
     return render(request, "cart.html", {'cart':cart}) 
 
 def productdetail(request):
-    return render(request, "product-detail.html", {'productdetail':productdetail}) 
+    product = get_object_or_404(models.Product)
+    if 'product_ids' in request.COOKIES:
+        product_ids = request.COOKIES['product_ids']
+        # counter = product_ids.split('|')
+        # product_count_in_cart = len(set(counter))
+    else:
+        product_count_in_cart = 0
+        context = {
+        'p': product,
+        'product_count_in_cart': product_count_in_cart,}
+    return render(request, "product-detail.html",  {'productdetail':productdetail})
+    
 
 def products(request):
     products = models.Product.objects.all()
@@ -55,15 +71,21 @@ def products(request):
 
     if request.user.is_authenticated:
         return HttpResponseRedirect('http:products')
-    return render(request, "products.html", {'products'/products})
-# def Order(request):
-#     Order = models.Order.objects.al()
-#     if 'order_ids' in request.COOKIES:
-#         order_ids = request.COOKIES['order_ids']
+    return render(request, "products.html", {'products':products})
 
-#     if request.user.is_authenticated:
-#         return HttpResponseRedirect('myapp:cart')
-#     return render(request, "cart.html", {'cart': cart})
+def Order(request):
+    Order = models.Order.objects.al()
+    if 'order_ids' in request.COOKIES:
+        order_ids = request.COOKIES['order_ids']
+
+    products=None
+    total=0
+
+    if request.user.is_authenticated:
+        
+        for p in products:
+            total = total + p.price
+    return render(request, "cart.html", {'products':products,'total':total,'cart':cart})
 
 def top(request):
     top = models.top.objects.all()
@@ -77,8 +99,6 @@ def top(request):
 def logout(request):
     return render(request, "logout.html", {'logout':logout})
 
-def login(request):
-    return render(request, "login.html", {'login':login})
 
 def bestseller(request):
     bestseller = models.bestseller.object.all()
