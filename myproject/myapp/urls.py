@@ -21,24 +21,30 @@ app_name = 'myapp'
 
 urlpatterns = [
     path('', views.Home, name='Home'),
-    path('about/', views.about, name='about'),
-    path('acc/', views.account, name='account'),
-    path('cart/', views.cart, name='cart'),
+    path('bestseller/', views.bestseller, name='bestseller'),
+    path('new/', views.new, name='new'),
     path('product-detail/', views.productdetail, name='productdetail'),
 
     path('products/', views.products, name='products'),
+    path('products/<slug>', views.products, name='products'),
+
+    path('about/', views.about, name='about'),
+
+    path('acc/', views.account, name='account'),
+    path('acc/login/', views.login, name='login'),
+
+
+    path('order/', views.Order, name='order'),
+    path('add-to-cart/<int:pk>', views.add_to_cart_view,name='add-to-cart'),
+    path('remove-from-cart/<int:pk>', views.remove_from_cart_view,name='remove-from-cart'),
+    path('address', views.address,name='address'),
+
+
+
+    
 
     # path('orderplace/', views.)
-
-    # path('products/<slug>', views.products, name='products'),
     path('top/', views.top, name='top'),
-    path('logout/', views.logout, name='logout'),
-    path('login/', views.login, name='login'),
-    path('bestseller/', views.bestseller, name='bestseller'),
-    path('new/', views.new, name='new'),
-    path('new/add', views.new, name='new')
-    
-   
 
 
 ]

@@ -12,6 +12,7 @@ class RegForm(forms.Form):
    Password = forms.CharField(max_length=100)
 
 class AddressForm(forms.Form):
-    Email = forms.EmailField()
-    Mobile= forms.IntegerField()
-    Address = forms.CharField(max_length=500)
+   Name = forms.CharField(max_length=200)
+   Email = forms.EmailField()
+   Mobile= forms.IntegerField()
+   Address = forms.CharField(max_length=500)

@@ -465,15 +465,15 @@ input:focus{
 .top col-4{
     margin-top: 10px;
 }
-/* --------cart------ */
-.add-cart{
+/* --------order-------- */
+.order{
     margin-top: 80px;
-}
-.cart{
     position: relative;
 }
-.cart-title{
-    text-align: center;
+
+.order .totalprice{
+    margin-top: 25%;
+    text-align: left;
     font-size: 20px;
     font-weight: 600;
 }

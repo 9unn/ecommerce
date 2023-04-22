@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Customer, Cart, Payment, OrderPlaced, new
+from .models import Product, Customer, Order, Payment, OrderPlaced, new
 from django.urls import reverse
 from django.contrib.auth.models import Group
 # Register your models here.
@@ -12,8 +12,8 @@ class ProductModelAdmin(admin.ModelAdmin):
 class CustomerModelAdmin(admin.ModelAdmin):
     list_display = ['id','user','locality','city','mobile','zipcode','state']
 
-@admin.register(Cart)
-class CartModelAdmin(admin.ModelAdmin):
+@admin.register(Order)
+class OrderModelAdmin(admin.ModelAdmin):
     list_display = ['id','user','product', 'quantity']
     # def product(self,obj):
     #     link = reverse("admin:app_product_change", args=[obj.product.pk])

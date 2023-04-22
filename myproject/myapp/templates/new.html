@@ -38,7 +38,7 @@
                             <li><a href="{% url 'myapp:logout'%}">Log Out</a></li>
                         </ul>
                     </nav>
-                    <a href="{% url 'myapp:cart'%}">
+                    <a href="{% url 'myapp:order'%}">
                     <img src="https://cdn-icons-png.flaticon.com/512/1413/1413908.png" width="30px" height="30px" class="cart-img"></a>
                     <img src="{% static 'images/menu_FILL0_wght400_GRAD0_opsz40.png' %}" class="menu-icon" onclick="menutoggle()">
                 </div>
@@ -50,15 +50,15 @@
 
             <div class="small-container new-Arrivals">
 
-                {% for n in new%}
                 <div class="row">
                     <div class="col-2">
                         
+                    {% for p in products%}
                     <div class="row">
                         <div class="col-4">
                             <img src="https://d.line-scdn.net/obs/r/ect/ect/image_165577979268402309819cc5425t0fed58c0">
-                            <h4>{{n.title}}</h4>
-                            <p>{{n.seller_price}}</p>
+                            <h4>{{p.title}}</h4>
+                            <p>{{p.seller_price}}</p>
                         </div>
                     
                         {% comment %} <div class="col-4">
@@ -77,9 +77,9 @@
                             <p>300 ฿</p>
                         </div> {% endcomment %}
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-
+                    
             </div>
 
 

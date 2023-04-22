@@ -1,11 +1,11 @@
-from django.http.response import HttpResponseRedirect 
-from django.shortcuts import render, redirect
-from .forms import LoginForm, RegForm
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from . import forms,models
+from .forms import LoginForm, RegForm, AddressForm
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.shortcuts import render,redirect, get_object_or_404
-
+from django.contrib import messages
+from django.conf import settings
+from django.contrib.auth.models import Group
 
 
 def login(request):
@@ -16,11 +16,11 @@ def login(request):
             print('Username:', form.cleaned_data['Username'])
             print('Password:',form.cleaned_data['Password'])
             
-            return redirect('Home')
+            return redirect('products')
    else: 
        form = LoginForm() 
 
-   return render(request, "account.html", {'form':form})
+   return render(request, "account.html", {'login':login})
 
 def reg(request):
    if request.method == "POST": 
@@ -31,11 +31,11 @@ def reg(request):
             print('Email:', form.cleaned_data['Email']) 
             print('Password:',form.cleaned_data['Password'])
             
-            return redirect('Home')
+            return redirect('products')
    else: 
        form = RegForm() 
 
-   return render(request, "account.html", {'form':form})
+   return render(request, "account.html", {'reg':reg})
 
 def Home(request):
     return render(request,'home.html', {'Home':Home})
@@ -46,46 +46,84 @@ def about(request):
 def account(request):
     return render(request, "account.html", {'account':account})
 
-def cart(request):
+def reg(request):
+    user = forms.CustomerUserForm()
+    customerForm = forms.CustomerForm()
+    mydict={'user':user,'customerForm':customerForm}
+    if request.method=='POST':
+        user = forms.CustomerUserForm(request.POST)
+        customerForm=forms.CustomerForm(request.POST,request.FILES)
+        if user.is_valid() and customerForm.is_valid():
+            user=user.save()
+            my_customer_group = Group.objects.get_or_create(name='CUSTOMER')
+            my_customer_group[0].user_set.add(user)
+        return HttpResponseRedirect('reg')
+    return render(request,'reg.html',context=mydict)
+
+
+def is_customer(user):
+    return user.groups.filter(name='CUSTOMER').exists()
+
+def login(request):
+    if is_customer(request.user):
+        return redirect('myapp:login')
+    else:
+        return redirect('myapp:products')
+   
     
-    return render(request, "cart.html", {'cart':cart}) 
+
 
 def productdetail(request):
-    product = get_object_or_404(models.Product)
-    if 'product_ids' in request.COOKIES:
-        product_ids = request.COOKIES['product_ids']
-        # counter = product_ids.split('|')
-        # product_count_in_cart = len(set(counter))
+    productdetail = get_object_or_404(models.Product)
+    if 'product_title' in request.COOKIES:
+        product_title = request.COOKIES['product_title']
+        counter = product_title.split('|')
+        product_count_in_cart = len(set(counter))
     else:
         product_count_in_cart = 0
         context = {
-        'p': product,
+        'p': productdetail,
         'product_count_in_cart': product_count_in_cart,}
     return render(request, "product-detail.html",  {'productdetail':productdetail})
     
+def products(slug):
+    pass
+
+    products(slug='my-slug')
 
 def products(request):
     products = models.Product.objects.all()
-    if 'product_ids' in request.COOKIES:
-        product_ids = request.COOKIES['product_ids']
-
+    if 'product_title' in request.COOKIES:
+        product_title = request.COOKIES['product_title']
+        counter = product_title.split('|')
+        product_count_in_cart=len(set(counter))
+    else:
+        product_count_in_cart = 0
+        context = {
+        'p': products,
+        'product_count_in_cart': product_count_in_cart,}
     if request.user.is_authenticated:
-        return HttpResponseRedirect('http:products')
-    return render(request, "products.html", {'products':products})
+        return HttpResponseRedirect('product')
+    return render(request,'products.html', {'product_count_in_cart':product_count_in_cart})
 
-def Order(request):
-    Order = models.Order.objects.al()
-    if 'order_ids' in request.COOKIES:
-        order_ids = request.COOKIES['order_ids']
 
-    products=None
-    total=0
+# def Order(request):
+#     Order = models.Order.objects.all()
+#     if 'order_ids' in request.COOKIES:
+#         order_ids = request.COOKIES['order_ids']
 
-    if request.user.is_authenticated:
+#         products = None
+#         total=0
+#     
+#         product_id_in_cart = products.split()
+#    
+#     if  request.user.is_authenticated
+        #   product_id_in_cart = products.split()
+#         products = models.Product.objects.all().filter(id__in = product_id_in_cart)
         
-        for p in products:
-            total = total + p.price
-    return render(request, "cart.html", {'products':products,'total':total,'cart':cart})
+#         for p in products:
+#             total = total + p.price
+#     return render(request, "order.html", {'products':products,'total':total,'order':Order})
 
 def top(request):
     top = models.top.objects.all()
@@ -93,7 +131,7 @@ def top(request):
         tops = request.COOKIES['tops']
 
     if request.user.is_authenticated:
-        return HttpResponseRedirect('http:top')
+        return HttpResponseRedirect('top')
     return render(request, "top.html", {'top':top})
 
 def logout(request):
@@ -103,14 +141,144 @@ def logout(request):
 def bestseller(request):
     bestseller = models.bestseller.object.all()
     if request.user.is_autheticated:
-        return HttpResponseRedirect('http:bestseller')
+        return HttpResponseRedirect('bestseller')
     return render(request, "home.html", {'bestseller':bestseller})
 
 def new(request):
     new = models.new.object.all()
+    if 'new' in request.COOKIES:
+        new = request.COOKIES['new']
+
     if request.user.is_autheticated:
-        return HttpResponseRedirect('http:new')
+        return HttpResponseRedirect('new')
     return render(request, "home.html", {'new':new})
+
+def add_to_cart_view(request,pk):
+    products = models.Product.objects.all()
+
+    if 'product_title' in request.COOKIES:
+        product_title = request.COOKIES['product_title']
+        counter = product_title.split('|')
+        product_count_in_cart=len(set(counter))
+    else:
+        product_count_in_cart=1
+
+    response = render(request, 'home.html',{'products':products,'product_count_in_cart':product_count_in_cart})
+    # response = render(request, 'homepage.html',{'products':products,'product_count_in_cart':product_count_in_cart,'redirect_to' : request.GET['next_page']})
+
+    if 'product_title' in request.COOKIES:
+        product_title = request.COOKIES['product_title']
+        if product_title =="":
+            product_title = str(pk)
+        else:
+            product_title = str(product_title)+"|"+str(pk)
+        response.set_cookie('product_title', product_title)
+        
+    else:
+        product_title = pk
+        response.set_cookie('product_title', pk)
+  
+
+    product = models.Product.objects.get(id=pk)
+    messages.info(request, product.title)
+
+    return response
+
+def Order(request):
+    if 'product_title' in request.COOKIES:
+        product_title = request.COOKIES['product_title']
+        counter = product_title.split('|')
+        product_count_in_cart=len(set(counter))
+    else:
+        product_count_in_cart=0
+
+    products=None
+    total=0
+    if 'product_title' in request.COOKIES:
+        product_title = request.COOKIES['product_title']
+        if product_title != "":
+            product_id_in_cart = product_title.split('|')
+            products = models.Product.objects.all().filter(id__in = product_id_in_cart)
+
+            for p in products:
+                total = total+ p.selling_price
+    return render(request,'order.html',{'products':products,'total':total,'product_count_in_cart':product_count_in_cart})
+
+def remove_from_cart_view(request,pk):
+    if 'product_title' in request.COOKIES:
+        product_title = request.COOKIES['product_title']
+        counter=product_title.split('|')
+        product_count_in_cart=len(set(counter))
+    else:
+        product_count_in_cart=0
+
+    total=0
+    if 'product_title' in request.COOKIES:
+        product_title = request.COOKIES['product_title']
+        product_id_in_cart=product_title.split('|')
+        product_id_in_cart=list(set(product_id_in_cart))
+        product_id_in_cart.remove(str(pk))
+        products=models.Product.objects.all().filter(id__in = product_id_in_cart)
+        for p in products:
+
+            total = total+ p.selling_price
+
+        value=""
+        for i in range(len(product_id_in_cart)):
+            if i==0:
+                value=value+product_id_in_cart[0]
+            else:
+                value=value+"|"+product_id_in_cart[i]
+        response = render(request, 'cart.html',{'products':products,'total':total,'product_count_in_cart':product_count_in_cart,'redirect_to' : request.GET['next_page']})
+        if value=="":
+            response.delete_cookie('product_title')
+        response.set_cookie('product_title',value)
+        return response
+    
+def address(request):
+    product_in_cart=False
+    if 'product_title' in request.COOKIES:
+        product_title = request.COOKIES['product_title']
+        if product_title != "":
+            product_in_cart=True
+    if 'product_title' in request.COOKIES:
+        product_title = request.COOKIES['product_title']
+        counter=product_title.split('|')
+        product_count_in_cart=len(set(counter))
+    else:
+        product_count_in_cart=0
+
+    addressForm = forms.AddressForm()
+    if request.method == 'POST':
+        addressForm = forms.AddressForm(request.POST)
+        if addressForm.is_valid():
+            name = addressForm.cleaned_data['Name']
+            email = addressForm.cleaned_data['Email']
+            mobile=addressForm.cleaned_data['Mobile']
+            address = addressForm.cleaned_data['Address']
+
+            total=0
+
+            if 'product_title' in request.COOKIES:
+                product_title = request.COOKIES['product_title']
+                if product_title != "":
+                    product_id_in_cart=product_title.split('|')
+                    products=models.Product.objects.all().filter(id__in = product_id_in_cart)
+                    for p in products:
+                        total = total+p.selling_price
+                    context={
+                        "mobile":"0929635322", #seller's mobile
+                        "amount": total,
+                        'total': total
+                    }
+            response = render(request, 'payment.html', context)
+            response.set_cookie('name',name)
+            response.set_cookie('email',email)
+            response.set_cookie('mobile',mobile)
+            response.set_cookie('address',address.encode('utf-8'))
+            return response
+
+    return render(request,'address.html',{'addressForm':addressForm,'product_in_cart':product_in_cart})
 
 
 

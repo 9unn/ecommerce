@@ -49,10 +49,13 @@ class Customer(models.Model):
     def __str__(self):
         return self.name
     
-class Cart(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    product = models.CharField(max_length=100, default='default_value')
+    order_ids = models.PositiveBigIntegerField()
+    selling_price = models.PositiveBigIntegerField()
     quantity = models.PositiveIntegerField(default=1)
+    product_image = models.ImageField(upload_to='static:images', default='default_value')
     
 STATUS_CHOICES = (
     ('Accepted','Accepted'),
@@ -112,8 +115,4 @@ class new(models.Model):
    
     def __str__(self):
         return self.title
-    
-class Order(models.Model):
-    order_ids = models.PositiveBigIntegerField()
-    selling_price = models.PositiveBigIntegerField()
     

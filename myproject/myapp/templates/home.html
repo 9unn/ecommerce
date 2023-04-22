@@ -34,7 +34,7 @@
                             <li><a href="{% url 'myapp:account'%}">Account</a></li>
                         </ul>
                     </nav>
-                    <a href="{% url 'myapp:cart'%}">
+                    <a href="{% url 'myapp:order'%}">
                     <img src="https://cdn-icons-png.flaticon.com/512/1413/1413908.png" width="30px" height="30px" class="cart-img"></a>
                     <img src="{% static 'images/menu_FILL0_wght400_GRAD0_opsz40.png' %}" class="menu-icon" onclick="menutoggle()">
                 </div>
@@ -72,12 +72,12 @@
              <div class="small-container">
                 <h2 class="title">Best Seller</h2>
 
-                {% for b in bestseller%}
+                {% for p in produc %}
                 <div class="row">
                     <div class="col-4">
                         <img src="https://d.line-scdn.net/obs/r/ect/ect/image_165577979268402309819cc5425t0fed58c0">
-                        <h4>{{b.title}}</h4>
-                        <p>{{b.seller_price}}</p>
+                        <h4>{{p.title}}</h4>
+                        <p>{{p.seller_price}}</p>
                     </div>
                 
                     {% comment %} <div class="col-4">
@@ -100,12 +100,12 @@
 
                 <h2 class="title">New Arrivals</h2>
 
-                {% for n in new%}
+                {% for p in product%}
                 <div class="row">
                     <div class="col-4">
                         <img src="https://obs.line-scdn.net/r/ect/ect/image_166234801350054108219d21848t105191dd">
-                        <h4>{{n.title}}</h4>
-                        <p>{{n.selling_price}}</p>
+                        <h4>{{p.title}}</h4>
+                        <p>{{p.selling_price}}</p>
                     </div>
                     {% comment %} <div class="col-4">
                         <img src="https://d.line-scdn.net/obs/r/ect/ect/image_166329059916372690619cb6271t105ff3d7">
@@ -199,7 +199,7 @@
             <div class="footer-row">
             <div class="footer-left">
                 <h1>Account</h1>
-                <a href="{% url 'myapp:account'%}"><p>Login</p></a>
+                <a href="{% url 'myapp:login'%}"><p>Login</p></a>
                 <a href="{% url 'myapp:account'%}"><p>Register</p></a>
             </div>
             <div class="footer-right">
