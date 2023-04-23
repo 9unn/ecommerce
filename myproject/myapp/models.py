@@ -38,25 +38,31 @@ class Product(models.Model):
     
 
 class Customer(models.Model):
-    customer_id = models.IntegerField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
-    locality = models.CharField(max_length=200)
+    customer_id = models.IntegerField()
+    address = models.CharField(max_length=200)
     city = models.CharField(max_length=50)
-    mobile = models.IntegerField(default=0)
+    province = models.CharField(max_length=50)
     zipcode = models.IntegerField()
-    state = models.CharField(max_length=30)
+    mobile = models.CharField(max_length=10, null=False)
+
+    def get_name(self):
+        return self.first_name+ "" + self.last_name
+
     def __str__(self):
         return self.name
     
+    
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
-    product = models.CharField(max_length=100, default='default_value')
+    user = models.ForeignKey(Customer, on_delete=models.CASCADE, default=1)
     order_ids = models.PositiveBigIntegerField()
+    product = models.CharField(max_length=200)
     selling_price = models.PositiveBigIntegerField()
     quantity = models.PositiveIntegerField(default=1)
     product_image = models.ImageField(upload_to='static:images', default='default_value')
     
+
 STATUS_CHOICES = (
     ('Accepted','Accepted'),
     ('Packed','Packed'),
@@ -65,14 +71,22 @@ STATUS_CHOICES = (
     ('Cancel','Cancel'),
     ('Pending','Pending'),
 )
+
+PAYMENT_CHOICES = (
+    ('Processing', 'Processing'),
+    ('Succeeded', 'Succeeded'),
+    ('Failed', 'Failed'),
+
+)
     
 class Payment(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    amount = models.FloatField()
-    rezorpay_order_id = models.CharField(max_length=100, blank=True,null=True)
-    rezorpay_payment_status = models.CharField(max_length=100,blank=True,null=True)
+    user = models.ForeignKey(Customer,on_delete=models.CASCADE)
+    amount = models.PositiveBigIntegerField()
+    rezorpay_order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
+    rezorpay_payment_status = models.CharField(choices = PAYMENT_CHOICES,max_length=20,blank=True,null=True)
     rezorpay_payment_id = models.CharField(max_length=100,blank=True,null=True)
     paid = models.BooleanField(default=False)
+
 
 class OrderPlaced(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
@@ -83,16 +97,17 @@ class OrderPlaced(models.Model):
     status = models.CharField(max_length=50,choices=STATUS_CHOICES,default='Pending')
 
 
-class Top(models.Model):
-    title = models.CharField(max_length=100)
-    selling_price = models.PositiveBigIntegerField()
-    discription = models.TextField()
-    category = models.CharField(choices=CATEGORY_CHOICES,max_length=2)
-    size = models.CharField(choices=CATEGORY_SIZE ,max_length=2)
-    product_image = models.ImageField(upload_to='images')
+# class Top(models.Model):
+#     title = models.CharField(max_length=100)
+#     selling_price = models.PositiveBigIntegerField()
+#     discription = models.TextField()
+#     category = models.CharField(choices=CATEGORY_CHOICES,max_length=2)
+#     size = models.CharField(choices=CATEGORY_SIZE ,max_length=2)
+#     product_image = models.ImageField(upload_to='images')
    
-    def __str__(self):
-        return self.title
+#     def __str__(self):
+#         return self.title
+    
     
 class bestseller(models.Model):
     title = models.CharField(max_length=100)

@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from . import forms,models
 from .forms import LoginForm, RegForm, AddressForm
@@ -6,36 +6,38 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth.models import Group
+from django.http import HttpResponse
 
 
 def login(request):
    if request.method == "POST": 
        LoginForm = LoginForm(request.POST) 
        LoginForm =forms.LoginForm(request.POST, request.FILES)
-       if form.is_valid(): 
-            print('Username:', form.cleaned_data['Username'])
-            print('Password:',form.cleaned_data['Password'])
+       if LoginForm.is_valid(): 
+            
+            print('Username:', LoginForm.cleaned_data['Username'])
+            print('Password:',LoginForm.cleaned_data['Password'])
             
             return redirect('products')
    else: 
-       form = LoginForm() 
-
-   return render(request, "account.html", {'login':login})
+       LoginForm = LoginForm() 
+       
+   return render(request, "products.html", {'LoginForm':login})
 
 def reg(request):
    if request.method == "POST": 
        RegForm = RegForm(request.POST) 
        RegForm =forms.RegForm(request.POST, request.FILES)
-       if form.is_valid(): 
-            print('Username:', form.cleaned_data['Username'])
-            print('Email:', form.cleaned_data['Email']) 
-            print('Password:',form.cleaned_data['Password'])
+       if RegForm.is_valid(): 
+            print('Username:', RegForm.cleaned_data['Username'])
+            print('Email:', RegForm.cleaned_data['Email']) 
+            print('Password:',RegForm.cleaned_data['Password'])
             
             return redirect('products')
    else: 
        form = RegForm() 
 
-   return render(request, "account.html", {'reg':reg})
+   return render(request, "products.html", {'RegForm':reg})
 
 def Home(request):
     return render(request,'home.html', {'Home':Home})
@@ -46,30 +48,12 @@ def about(request):
 def account(request):
     return render(request, "account.html", {'account':account})
 
-def reg(request):
-    user = forms.CustomerUserForm()
-    customerForm = forms.CustomerForm()
-    mydict={'user':user,'customerForm':customerForm}
-    if request.method=='POST':
-        user = forms.CustomerUserForm(request.POST)
-        customerForm=forms.CustomerForm(request.POST,request.FILES)
-        if user.is_valid() and customerForm.is_valid():
-            user=user.save()
-            my_customer_group = Group.objects.get_or_create(name='CUSTOMER')
-            my_customer_group[0].user_set.add(user)
-        return HttpResponseRedirect('reg')
-    return render(request,'reg.html',context=mydict)
+
 
 
 def is_customer(user):
     return user.groups.filter(name='CUSTOMER').exists()
 
-def login(request):
-    if is_customer(request.user):
-        return redirect('myapp:login')
-    else:
-        return redirect('myapp:products')
-   
     
 
 
@@ -87,16 +71,14 @@ def productdetail(request):
     return render(request, "product-detail.html",  {'productdetail':productdetail})
     
 def products(slug):
-    pass
-
-    products(slug='my-slug')
+    products()
 
 def products(request):
     products = models.Product.objects.all()
     if 'product_title' in request.COOKIES:
         product_title = request.COOKIES['product_title']
         counter = product_title.split('|')
-        product_count_in_cart=len(set(counter))
+        product_count_in_cart=len(set(counter)) 
     else:
         product_count_in_cart = 0
         context = {
@@ -184,6 +166,7 @@ def add_to_cart_view(request,pk):
 
     return response
 
+
 def Order(request):
     if 'product_title' in request.COOKIES:
         product_title = request.COOKIES['product_title']
@@ -203,6 +186,7 @@ def Order(request):
             for p in products:
                 total = total+ p.selling_price
     return render(request,'order.html',{'products':products,'total':total,'product_count_in_cart':product_count_in_cart})
+
 
 def remove_from_cart_view(request,pk):
     if 'product_title' in request.COOKIES:
@@ -234,7 +218,8 @@ def remove_from_cart_view(request,pk):
             response.delete_cookie('product_title')
         response.set_cookie('product_title',value)
         return response
-    
+
+
 def address(request):
     product_in_cart=False
     if 'product_title' in request.COOKIES:

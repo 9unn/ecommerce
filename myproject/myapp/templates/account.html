@@ -52,7 +52,10 @@
                                 <span onclick="register()">Register</span>
                             </div>
                             
+
                             <form id="LoginForm" method="post">
+                               {% csrf_token %}
+                               {{ LoginForm.as_p }}
                                 <input type="text" placeholder="Username">
                                 <input type="text" placeholder="Password">
                                 <button type="submit" class="btn">Login</button>
@@ -60,6 +63,8 @@
                             </form>
 
                             <form id="RegForm" method="post">
+                                {%csrf_token%}
+                                {{ RegForm.as_p }}
                                 <input type="text" placeholder="Username">
                                 <input type="text" placeholder="Email">
                                 <input type="text" placeholder="Password">
