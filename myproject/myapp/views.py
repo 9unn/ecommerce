@@ -58,7 +58,7 @@ def is_customer(user):
 
 
 def productdetail(request):
-    productdetail = get_object_or_404(models.Product)
+    productdetail = products.objects.filter(models.Product)
     if 'product_title' in request.COOKIES:
         product_title = request.COOKIES['product_title']
         counter = product_title.split('|')
@@ -126,6 +126,7 @@ def bestseller(request):
         return HttpResponseRedirect('bestseller')
     return render(request, "home.html", {'bestseller':bestseller})
 
+
 def new(request):
     new = models.new.object.all()
     if 'new' in request.COOKIES:
@@ -134,6 +135,7 @@ def new(request):
     if request.user.is_autheticated:
         return HttpResponseRedirect('new')
     return render(request, "home.html", {'new':new})
+
 
 def add_to_cart_view(request,pk):
     products = models.Product.objects.all()
@@ -250,7 +252,7 @@ def address(request):
                     product_id_in_cart=product_title.split('|')
                     products=models.Product.objects.all().filter(id__in = product_id_in_cart)
                     for p in products:
-                        total = total+p.selling_price
+                        total = total + p.selling_price
                     context={
                         "mobile":"0929635322", #seller's mobile
                         "amount": total,
