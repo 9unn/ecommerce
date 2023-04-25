@@ -18,13 +18,15 @@ from django.urls import path
 from myapp import views
 from .views import ProductsView, ProductDetailView
 
+
 app_name = 'myapp'
 
 urlpatterns = [
     path('', views.Home, name='Home'),
     path('bestseller/', views.bestseller, name='bestseller'),
     path('new/', views.new, name='new'),
-    path('product-detail/', ProductDetailView.as_view, name='productdetail'),
+    path('product-detail/', ProductDetailView.as_view(), name='productdetail'),
+    path('product/<id>/', ProductDetailView.as_view(), name='productdetail'),
 
     path('products/', ProductsView.as_view(), name='products'),
     # path('products/<slug>', views.products, name='products'),

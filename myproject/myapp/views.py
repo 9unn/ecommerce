@@ -54,9 +54,22 @@ def account(request):
 def is_customer(user):
     return user.groups.filter(name='CUSTOMER').exists()
 
+# class ProductDetailView(DetailView):
+#     model = Product
+#     template_name = "productdetail.html"
+
 class ProductDetailView(DetailView):
     model = Product
-    template_name = "productdetail.html"
+    template_name = 'productdetail.html'
+
+    def get_object(self, queryset=None):
+        if queryset is None:
+            queryset = self.get_queryset()
+
+        # fetch the object based on a different identifier, e.g. the product code
+        product_code = self.kwargs.get('id')
+        obj = get_object_or_404(queryset, id = product_code)
+        return obj
 
     def productdetail(request):
         productdetail = get_object_or_404(models.Product)
