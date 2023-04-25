@@ -66,10 +66,10 @@ class ProductDetailView(DetailView):
         if queryset is None:
             queryset = self.get_queryset()
 
-        # fetch the object based on a different identifier, e.g. the product code
-        product_code = self.kwargs.get('id')
-        obj = get_object_or_404(queryset, id = product_code)
-        return obj
+        # # fetch the object based on a different identifier, e.g. the product code
+        # product_code = self.kwargs.get('id')
+        # obj = get_object_or_404(queryset, id = product_code)
+        # return obj
 
     def productdetail(request):
         productdetail = get_object_or_404(models.Product)
@@ -124,14 +124,14 @@ class ProductsView(ListView):
 #             total = total + p.price
 #     return render(request, "order.html", {'products':products,'total':total,'order':Order})
 
-def top(request):
-    top = models.top.objects.all()
-    if 'tops' in request.COOKIES:
-        tops = request.COOKIES['tops']
+# def top(request):
+#     top = models.top.objects.all()
+#     if 'tops' in request.COOKIES:
+#         tops = request.COOKIES['tops']
 
-    if request.user.is_authenticated:
-        return HttpResponseRedirect('top')
-    return render(request, "top.html", {'top':top})
+#     if request.user.is_authenticated:
+#         return HttpResponseRedirect('top')
+#     return render(request, "top.html", {'top':top})
 
 def logout(request):
     return render(request, "logout.html", {'logout':logout})

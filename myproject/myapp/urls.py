@@ -22,14 +22,16 @@ from .views import ProductsView, ProductDetailView
 app_name = 'myapp'
 
 urlpatterns = [
+
     path('', views.Home, name='Home'),
-    path('bestseller/', views.bestseller, name='bestseller'),
-    path('new/', views.new, name='new'),
+    # path('bestseller/', views.bestseller, name='bestseller'),
+    # path('new/', views.new, name='new'),
     path('product-detail/', ProductDetailView.as_view(), name='productdetail'),
-    path('product/<id>/', ProductDetailView.as_view(), name='productdetail'),
+    # path('product-detail/<id>/', ProductDetailView.as_view(), name='productdetail'),
+    path('product/<int:pk>/', ProductDetailView.as_view(), name='product_detail'),
 
     path('products/', ProductsView.as_view(), name='products'),
-    # path('products/<slug>', views.products, name='products'),
+    path('products/<slug>', views.Product, name='products'),
 
     path('about/', views.about, name='about'),
 
@@ -47,7 +49,7 @@ urlpatterns = [
     
 
     # path('orderplace/', views.)
-    path('top/', views.top, name='top'),
+    # path('top/', views.top, name='top'),
 
 
 ]
