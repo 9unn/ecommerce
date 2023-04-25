@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Customer, Order, new, Payment, OrderPlaced
+from .models import Product, Customer, Order, Payment, OrderPlaced
 from django.urls import reverse
 from django.contrib.auth.models import Group
 

@@ -72,15 +72,15 @@
              <div class="small-container">
                 <h2 class="title">Best Seller</h2>
 
-                {% for p in produc %}
+                {% comment %} {% for p in produc %} {% endcomment %}
                 <div class="row">
                     <div class="col-4">
                         <img src="https://d.line-scdn.net/obs/r/ect/ect/image_165577979268402309819cc5425t0fed58c0">
-                        <h4>{{p.title}}</h4>
-                        <p>{{p.seller_price}}</p>
+                        <h4>Semi pants (Black)</h4>
+                        <p>390</p>
                     </div>
                 
-                    {% comment %} <div class="col-4">
+                    <div class="col-4">
                         <img src="https://d.line-scdn.net/obs/r/ect/ect/image_164915288154689336619c92043t0f883a61">
                         <h4>Fluffy short pants (Cream)</h4>
                         <p>250 ฿</p>
@@ -94,56 +94,56 @@
                         <img src="https://obs.line-scdn.net/r/ect/ect/image_164412334886391344819ca9849t0f3b7bc4">
                         <h4>Red rose T-shirt</h4>
                         <p>300 ฿</p>
-                    </div> {% endcomment %}
+                    </div>
                 </div>
-                {% endfor %}
+                
 
                 <h2 class="title">New Arrivals</h2>
 
-                {% for p in product%}
+                {% comment %} {% for p in product%} {% endcomment %}
                 <div class="row">
                     <div class="col-4">
-                        <img src="https://obs.line-scdn.net/r/ect/ect/image_166234801350054108219d21848t105191dd">
-                        <h4>{{p.title}}</h4>
-                        <p>{{p.selling_price}}</p>
+                        <img src="{% static 'images/LINE_P25660425_124142133.png'%}">
+                        <h4>Gummy pants (White)</h4>
+                        <p>320 ฿</p>
                     </div>
-                    {% comment %} <div class="col-4">
-                        <img src="https://d.line-scdn.net/obs/r/ect/ect/image_166329059916372690619cb6271t105ff3d7">
+                    <div class="col-4">
+                        <img src="{% static 'images/Image 19-4-2566 BE at 15.22 (2).jpg'%}">
                         <h4>Tiny top (Blue)</h4>
                         <p>250 ฿</p>
                     </div>
                     <div class="col-4">
-                        <img src="https://d.line-scdn.net/lcp-prod-photo/20211215_27/1639537527480rOC9s_JPEG/RPH2Z60K8IV8EJI5F03788UWK6356C.jpeg">
-                        <h4>Jelly short pants (Black)</h4>
+                        <img src="{% static 'images/Image 19-4-2566 BE at 15.24 (1).jpg'%}">
+                        <h4>Jelly shorts (Black)</h4>
                         <p>260 ฿</p>
                     </div>
                     <div class="col-4">
-                        <img src="https://d.line-scdn.net/lcp-prod-photo/20210704_100/1625399806174wmF4d_JPEG/IKBUKNQOW9ZPZPCWTUMXVITGN81NU5.jpeg">
+                        <img src="{% static 'images/IKBUKNQOW9ZPZPCWTUMXVITGN81NU5.jpeg'%}">
                         <h4>Cool girl crop (Black)</h4>
                         <p>139 ฿</p>
                     </div>
                     <div class="col-4">
-                        <img src="https://obs.line-scdn.net/r/ect/ect/image_164826821992954093719d03061t0f7abaab">
+                        <img src="{% static 'images/image_164826821992954093719d03061t0f7abaab.jpeg'%}">
                         <h4>Choco teddy crop</h4>
                         <p>270 ฿</p>
                     </div>
                     <div class="col-4">
-                        <img src="https://d.line-scdn.net/obs/r/ect/ect/image_164264868559092405219cb8110t0f24fb5d">
+                        <img src="{% static 'images/Image 19-4-2566 BE at 15.24 (2).jpg'%}">
                         <h4>Tennis skirt (White)</h4>
                         <p>260 ฿</p>
                     </div>
                     <div class="col-4">
-                        <img src="https://d.line-scdn.net/obs/r/ect/ect/image_164415505203302031519c95036t0f3bf79c">
+                        <img src="{% static 'images/Image 19-4-2566 BE at 15.22.jpg'%}">
                         <h4>Judy crop (Brownie)</h4>
                         <p>250 ฿</p>
                     </div>
                     <div class="col-4">
-                        <img src="https://obs.line-scdn.net/r/ect/ect/image_164921569876900746319c99284t0f892fc2">
+                        <img src="{% static 'images/image_164921569876900746319c99284t0f892fc2.jpeg'%}">
                         <h4>Love me love my cat crop</h4>
                         <p>270 ฿</p>
-                    </div> {% endcomment %}
+                    </div>
                 </div>
-                {% endfor %}
+                {% comment %} {% endfor %} {% endcomment %}
              </div>
 <!-- --------- offer--------- -->
             <div class="offer">

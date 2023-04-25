@@ -7,6 +7,8 @@ from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth.models import Group
 from django.http import HttpResponse
+from django.views.generic import DetailView, ListView
+from .models import Product
 
 
 def login(request):
@@ -49,44 +51,46 @@ def account(request):
     return render(request, "account.html", {'account':account})
 
 
-
-
 def is_customer(user):
     return user.groups.filter(name='CUSTOMER').exists()
 
-    
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = "productdetail.html"
+
+    def productdetail(request):
+        productdetail = get_object_or_404(models.Product)
+        if 'product_title' in request.COOKIES:            
+            product_title = request.COOKIES['product_title']
+            counter = product_title.split('|')
+            product_count_in_cart = len(set(counter))
+        else:
+            product_count_in_cart = 0
+            context = {
+            'p': productdetail,
+            'product_count_in_cart': product_count_in_cart,}
+        return render(request, "productdetail.html",  {'productdetail':productdetail})
 
 
-def productdetail(request):
-    productdetail = products.objects.filter(models.Product)
-    if 'product_title' in request.COOKIES:
-        product_title = request.COOKIES['product_title']
-        counter = product_title.split('|')
-        product_count_in_cart = len(set(counter))
-    else:
-        product_count_in_cart = 0
-        context = {
-        'p': productdetail,
-        'product_count_in_cart': product_count_in_cart,}
-    return render(request, "product-detail.html",  {'productdetail':productdetail})
-    
-def products(slug):
-    products()
+class ProductsView(ListView):
+    model = Product
+    template = 'products.html'
 
-def products(request):
-    products = models.Product.objects.all()
-    if 'product_title' in request.COOKIES:
-        product_title = request.COOKIES['product_title']
-        counter = product_title.split('|')
-        product_count_in_cart=len(set(counter)) 
-    else:
-        product_count_in_cart = 0
-        context = {
-        'p': products,
-        'product_count_in_cart': product_count_in_cart,}
-    if request.user.is_authenticated:
-        return HttpResponseRedirect('product')
-    return render(request,'products.html', {'product_count_in_cart':product_count_in_cart})
+    def products(request):
+        products = models.Product.objects.all()
+        if 'product_title' in request.COOKIES:
+            product_title = request.COOKIES['product_title']
+            counter = product_title.split('|')
+            product_count_in_cart=len(set(counter)) 
+
+        else:
+            product_count_in_cart = 0
+            context = {
+            'p': products,
+            'product_count_in_cart': product_count_in_cart,}
+        # if request.user.is_authenticated:
+            return HttpResponseRedirect('products')
+        return render(request,'products.html', {'product_count_in_cart':product_count_in_cart})
 
 
 # def Order(request):

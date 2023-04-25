@@ -34,7 +34,7 @@ class Product(models.Model):
         return self.title
     
     def get_absolute_url(self):
-        return reverse ("myapp:products", kwargs={'slug':self.slug})
+        return reverse ("myapp:products")
     
 
 class Customer(models.Model):
@@ -109,25 +109,25 @@ class OrderPlaced(models.Model):
 #         return self.title
     
     
-class bestseller(models.Model):
-    title = models.CharField(max_length=100)
-    selling_price = models.PositiveBigIntegerField()
-    discription = models.TextField()
-    category = models.CharField(choices=CATEGORY_CHOICES,max_length=2)
-    size = models.CharField(choices=CATEGORY_SIZE ,max_length=2)
-    product_image = models.ImageField(upload_to='images')
+# class bestseller(models.Model):
+#     title = models.CharField(max_length=100)
+#     selling_price = models.PositiveBigIntegerField()
+#     discription = models.TextField()
+#     category = models.CharField(choices=CATEGORY_CHOICES,max_length=2)
+#     size = models.CharField(choices=CATEGORY_SIZE ,max_length=2)
+#     product_image = models.ImageField(upload_to='images')
    
-    def __str__(self):
-        return self.title
+#     def __str__(self):
+#         return self.title
     
-class new(models.Model):
-    title = models.CharField(max_length=100)
-    selling_price = models.PositiveBigIntegerField()
-    discription = models.TextField()
-    category = models.CharField(choices=CATEGORY_CHOICES,max_length=2)
-    size = models.CharField(choices=CATEGORY_SIZE ,max_length=2)
-    product_image = models.ImageField(upload_to='images')
+# class new(models.Model):
+#     title = models.CharField(max_length=100)
+#     selling_price = models.PositiveBigIntegerField()
+#     discription = models.TextField()
+#     category = models.CharField(choices=CATEGORY_CHOICES,max_length=2)
+#     size = models.CharField(choices=CATEGORY_SIZE ,max_length=2)
+#     product_image = models.ImageField(upload_to='images')
    
-    def __str__(self):
-        return self.title
+#     def __str__(self):
+#         return self.title
     
