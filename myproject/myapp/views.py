@@ -51,9 +51,6 @@ def account(request):
     return render(request, "account.html", {'account':account})
 
 
-def is_customer(user):
-    return user.groups.filter(name='CUSTOMER').exists()
-
 # class ProductDetailView(DetailView):
 #     model = Product
 #     template_name = "productdetail.html"
@@ -103,7 +100,7 @@ class ProductsView(ListView):
             'product_count_in_cart': product_count_in_cart,}
         # if request.user.is_authenticated:
             return HttpResponseRedirect('products')
-        return render(request,'products.html', {'product_count_in_cart':product_count_in_cart})
+        return render(request,'products_list.html', {'product_count_in_cart':product_count_in_cart})
 
 
 # def Order(request):
@@ -133,8 +130,8 @@ class ProductsView(ListView):
 #         return HttpResponseRedirect('top')
 #     return render(request, "top.html", {'top':top})
 
-def logout(request):
-    return render(request, "logout.html", {'logout':logout})
+# def logout(request):
+#     return render(request, "logout.html", {'logout':logout})
 
 
 def bestseller(request):

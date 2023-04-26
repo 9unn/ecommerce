@@ -73,8 +73,8 @@
                     </div>
 
                     <div class="col-2-top">
-                        <a href="{% url 'myapp:top' %}"><p>Top</p></a>
-                        <h1>Mandarin collar</h1>
+                        <p>Top</p>
+                        <h1 onclick={Mandarin}>Mandarin collar</h1>
                         <h4>215 ฿</h4>
                         
                     <!-- -----size-------- -->
@@ -97,7 +97,8 @@
                     <!-- --------Quantity-------- -->
                         <div class="qty">
                             <input type="number" value="1" min="1">
-                            <a href="" class="btn">Add To Cart</a>
+                            {% comment %} <a href="" class="btn" id="add_to_cart">Add To Cart</a> {% endcomment %}
+                            <botton onclick={AddToCartHandle} class="btn">Add To Cart</botton>
                         </div>
                     </div> 
                     
@@ -227,11 +228,11 @@
                 selecttxt = size.querySelector(".select-txt")
                 optiontxt = size.querySelector("option-txt")
 
-                //  For displaying the list
+                    //  For displaying the list
 
                 select.addEventListener("click", ()=> size.classList.toggle("click"))
 
-                // For selecting the option
+                    // For selecting the option
                 option.forEach(option => {
                     option.addEventListener("click", ()=>{
                         let optiontxt = option.querySelector("option-txt").innerHTML
@@ -241,6 +242,27 @@
                         size.classList.remove("click")
                     })
                 });
+                
             </script>
+
+        {% comment %} ----------- js for add to cart---------- {% endcomment %}
+            {% comment %} <script>
+
+                const Mandarin = {{history}} => {
+                    const [qty] = useState(1);
+                    const productId = match.params.id;
+                    const dispatch = useDispatch();
+                
+
+                    const AddToCartHandle = (e) => {
+                    e.preventDefault()
+                    history.pushState('/cart/${productId}?qty=${qty}');
+
+                
+                    }
+                }
+
+
+            </script> {% endcomment %}
     </body>
 </html>
