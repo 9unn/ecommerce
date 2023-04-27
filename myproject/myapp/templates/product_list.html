@@ -46,7 +46,7 @@
 
         <div class="small-container">
 
-            <div class="row row-2">
+            <div class="filter">
                 <h2>All Products</h2>                   
                 <select>
                     <option>All Filter</option>
@@ -77,7 +77,7 @@
                     <span>&#8594;</span>
                     
                 </div> {% endcomment %} 
-         </div> 
+        </div> 
 
 <!-- -----footer---- -->
             <section id="footer">
@@ -124,6 +124,28 @@
                     }
                 }
             </script>
-    
+
+{% comment %} ------------ js for fliter--------------- {% endcomment %}
+            <script>
+                let filter = document.querySelector('.filter').children;
+                let row = document.querySelector('.row').children;
+
+                for(let r of row){
+                    const name = r.querySelector('h4');
+                    const x = name.textContent;
+                    r.setAttribute('category', x);
+                }
+
+                for(let r=0; i<row.lenght; i++)
+                {
+                    row[r].onclick = function(){
+                        for(let x=0; x<row.lenght; x++)
+                        {
+                            row[x].classList.remove('active');    
+                        }
+                        this.classList.add('active');
+                        const displayItems = this.getAttribute('')
+                    }
+                }
 </body>
 </html>

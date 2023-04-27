@@ -36,7 +36,8 @@ urlpatterns = [
     path('about/', views.about, name='about'),
 
     path('acc/', views.account, name='account'),
-    path('acc/login/', views.login, name='login'),
+    path('register/', views.reg, name='Reg'),
+    path('login/', views.login, name='Login'),
 
 
     path('order/', views.Order, name='order'),

@@ -1,45 +1,110 @@
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
-from . import forms,models
+from .forms import *
 from .forms import LoginForm, RegForm, AddressForm
-from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth.models import Group
 from django.http import HttpResponse
-from django.views.generic import DetailView, ListView
-from .models import Product
+from django.views.generic import DetailView, ListView, CreateView, FormView, View
+from myapp.models import *
+from django.urls import reverse_lazy
+from django.contrib.auth import authenticate, login, logout
 
-
-def login(request):
-   if request.method == "POST": 
-       LoginForm = LoginForm(request.POST) 
-       LoginForm =forms.LoginForm(request.POST, request.FILES)
-       if LoginForm.is_valid(): 
+# def login(request):
+#    if request.method == "POST": 
+#        Login = Login(request.POST) 
+#        Login =forms.LoginForm(request.POST, request.FILES)
+#        if Login.is_valid(): 
             
-            print('Username:', LoginForm.cleaned_data['Username'])
-            print('Password:',LoginForm.cleaned_data['Password'])
+#             print('Username:', Login.cleaned_data['Username'])
+#             print('Password:',Login.cleaned_data['Password'])
             
-            return redirect('products')
-   else: 
-       LoginForm = LoginForm() 
+#             return redirect('products')
+#    else: 
+#        Login = LoginForm() 
        
-   return render(request, "products.html", {'LoginForm':login})
+#    return render(request, "home.html", {'Login':login})
+
+# class LoginView(View):
+#     def get(self, request):
+#         logout(request)
+#         return redirect('home')
+
+class LoginView(FormView):
+    template_name = 'login.html'
+    form_class = LoginForm
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data["password"]
+        usr = authenticate(username=username, password=password)
+        if usr is not None and Customer.objects.filter(user=usr).exists():
+            login(self.request, usr)
+        else:
+            return render(self.request, self.template_name, {"form": self.form_class, "error": "Invalid credentials"})
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        if "next" in self.request.GET:
+            next_url = self.request.GET.get("next")
+            return next_url
+        else:
+            return self.success_url
+        
+    def login(request):
+        if request.method == "POST": 
+            Login = Login(request.POST) 
+            Login =forms.LoginForm(request.POST, request.FILES)
+            if Login.is_valid(): 
+                    
+                    print('Username:', Login.cleaned_data['Username'])
+                    print('Password:',Login.cleaned_data['Password'])
+                    
+                    return redirect('products')
+        else: 
+            Login = LoginForm() 
+            
+        return render(request, "home.html", {'Login':login})
+
 
 def reg(request):
    if request.method == "POST": 
-       RegForm = RegForm(request.POST) 
-       RegForm =forms.RegForm(request.POST, request.FILES)
-       if RegForm.is_valid(): 
-            print('Username:', RegForm.cleaned_data['Username'])
-            print('Email:', RegForm.cleaned_data['Email']) 
-            print('Password:',RegForm.cleaned_data['Password'])
+       Reg = Reg(request.POST) 
+       Reg =forms.RegForm(request.POST, request.FILES)
+       if Reg.is_valid(): 
+            print('Username:', Reg.cleaned_data['Username'])
+            print('Email:', Reg.cleaned_data['Email']) 
+            print('Password:',Reg.cleaned_data['Password'])
             
             return redirect('products')
    else: 
-       form = RegForm() 
+       Reg = RegForm() 
 
    return render(request, "products.html", {'RegForm':reg})
+
+class regView(CreateView):
+    template_name = 'register.html'
+    form_class = RegForm
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password')
+        email = form.cleaned_data.get('email')
+        user = User.objects.create_user(username, email, password)
+        form.instance.user = user
+        login(self.request, user)
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('home')
+
+
+# class Home(ListView):
+#     model = Product
+#     template_name = 'home.html'
 
 def Home(request):
     return render(request,'home.html', {'Home':Home})

@@ -97,6 +97,18 @@ class OrderPlaced(models.Model):
     status = models.CharField(max_length=50,choices=STATUS_CHOICES,default='Pending')
 
 
+class Transaction(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, default=None, blank=True, null=True)
+    transaction = models.CharField(max_length=50)
+    total = models.PositiveIntegerField(default=0)
+    stats = models.PositiveIntegerField(default=0)
+    image = models.ImageField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.transaction
+
+
 # class Top(models.Model):
 #     title = models.CharField(max_length=100)
 #     selling_price = models.PositiveBigIntegerField()
