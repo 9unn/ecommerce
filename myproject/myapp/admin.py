@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Customer, Order, Payment, OrderPlaced, Transaction
+from .models import *
 from django.urls import reverse
 from django.contrib.auth.models import Group
 
@@ -27,9 +27,9 @@ class PaymentModelAdmin(admin.ModelAdmin):
     list_display = ['id','user','amount', 'rezorpay_order_id','rezorpay_payment_status','rezorpay_payment_id','paid']
 
 
-class TransactionAdmin(admin.ModelAdmin):
-    pass
-admin.site.register(Transaction, TransactionAdmin)
+# class TransactionAdmin(admin.ModelAdmin):
+#     pass
+# admin.site.register(Transaction, TransactionAdmin)
 
 # @admin.register(OrderPlaced)
 # class OrderPlacedModelAdmin(admin.ModelAdmin):

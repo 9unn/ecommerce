@@ -52,7 +52,7 @@
                                 <span onclick="register()">Register</span>
                             </div>
                             
-                            {% if user.is_authenticated %}
+                            {% comment %} {% if user.is_authenticated %} {% endcomment %}
                             <form id="LoginForm" method="post">
 
                                {% csrf_token %}
@@ -74,7 +74,7 @@
                                 <button type="submit" class="btn">Register</button>
                                 
                             </form>
-                            {% endif %}
+                            {% comment %} {% endif %} {% endcomment %}
                         </div>
                     </div>
                 </div>
@@ -126,10 +126,14 @@
                 }
 
                 
+
+                
         </script>
 
 
 
     <script src="script.js"></script>
+
+
 </body>
 </html>

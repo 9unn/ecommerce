@@ -28,10 +28,10 @@ class Product(models.Model):
     category = models.CharField(choices=CATEGORY_CHOICES,max_length=2)
     size = models.CharField(choices=CATEGORY_SIZE ,max_length=2)
     product_image = models.ImageField(upload_to='images')
-    slug = models.SlugField(null=True, blank=True, unique=True)
+    
 
     def __str__(self):
-        return self.title
+        return "%s"%(self.title)
     
     def get_absolute_url(self):
         return reverse ("myapp:products")
@@ -51,7 +51,8 @@ class Customer(models.Model):
         return self.first_name+ "" + self.last_name
 
     def __str__(self):
-        return self.name
+        return "%s"%(self.name)
+    
     
     
 class Order(models.Model):
@@ -60,7 +61,10 @@ class Order(models.Model):
     product = models.CharField(max_length=200)
     selling_price = models.PositiveBigIntegerField()
     quantity = models.PositiveIntegerField(default=1)
-    product_image = models.ImageField(upload_to='static:images', default='default_value')
+    product_image = models.ImageField(upload_to='images', default='default_value')
+
+    def __str__(self):
+        return "%s"%(self.pk)
     
 
 STATUS_CHOICES = (
@@ -97,16 +101,16 @@ class OrderPlaced(models.Model):
     status = models.CharField(max_length=50,choices=STATUS_CHOICES,default='Pending')
 
 
-class Transaction(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, default=None, blank=True, null=True)
-    transaction = models.CharField(max_length=50)
-    total = models.PositiveIntegerField(default=0)
-    stats = models.PositiveIntegerField(default=0)
-    image = models.ImageField(null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+# class Transaction(models.Model):
+#     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, default=None, blank=True, null=True)
+#     transaction = models.CharField(max_length=50)
+#     total = models.PositiveIntegerField(default=0)
+#     stats = models.PositiveIntegerField(default=0)
+#     image = models.ImageField(null=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self) -> str:
-        return self.transaction
+#     def __str__(self) -> str:
+#         return self.transaction
 
 
 # class Top(models.Model):

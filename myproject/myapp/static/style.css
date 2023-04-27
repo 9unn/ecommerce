@@ -478,6 +478,14 @@ input:focus{
     font-weight: 600;
 }
 
+/* --------- refund -------- */
+
+.refund{
+    margin-top: 80px;
+    position: relative;
+}
+
+
 /* ----------about----------- */
 .about{
     margin-top: 80px;
