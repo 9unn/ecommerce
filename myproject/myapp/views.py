@@ -102,17 +102,17 @@ class regView(CreateView):
         return reverse('home')
 
 
-class Home(View):
-    template_name = 'home.html'
+# class Home(View):
+#     template_name = 'home.html'
 
-# def Home(request):
-#     return render(request,'home.html', {'Home':Home})
+def Home(request):
+    return render(request,'home.html', {'Home':Home})
 
-class about(View):
-    template_name = 'about.html'
+# class about(View):
+#     template_name = 'about.html'
 
-# def about(request):
-#     return render(request, "about.html", {'about':about})
+def about(request):
+    return render(request, "about.html", {'about':about})
 
 def account(request):
     return render(request, "account.html", {'account':account})

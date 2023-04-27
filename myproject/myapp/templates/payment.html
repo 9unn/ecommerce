@@ -41,3 +41,102 @@
                 
             </div>
         </div>
+
+{% comment %} ------------------------------- {% endcomment %}
+
+    <section class="order">
+        <div class="small-container">
+            <div class="row row-2">
+                <h2>Payment</h2>
+            </div>
+
+            {% for m in Payment %}
+            {% if m %}
+            <div class="small-container payment">
+                <div class="row">{{ forloop.counter }}</div>
+                    <div class="payment">
+                        <div>
+                            {% comment %} <img src="{{ p.product_image }}" class="img-cart" style="width: 120px;"> {% endcomment %}
+
+                            <div class="payment">
+
+                                <p>{{ m.user }}</p>
+                                <p>{{ m.rezorpay_order_id }}</p>
+                                <p>{{ m.rezorpay_payment_status }}</p>
+                                <p>{{ m.rezorpay_payment_id }}</p>
+        
+        
+                            </div>
+
+                        </div>
+
+                        <div>
+                            <p>{{ m.amount }}</p>
+                        </div>
+                        {% comment %} <div>
+                            <a href="{% url 'myapp:remove-from-cart' p.id  %}?next_page={{request.path}}"> Delete </a>
+                        </div> {% endcomment %}
+                
+            {%endif%}
+            {%endfor%}
+
+
+                <!-- <div class="col-lg-4 col-xl-3"> -->
+
+                        {% comment %} <div class="subtptal" style="font-weight: 500;">
+                            <p>Subtotal</p>
+                            <p>฿{{ total }}</p>
+                        </div> {% endcomment %} 
+
+                        {% comment %} <div class="totalprice">
+                            <p>Total Price</p>
+                            <p>฿{{ total }}</p>
+                        </div> {% endcomment %}
+
+                        {% comment %} <a href="myapp:refund">
+                        <button type="button" class="btn">
+                            <div class="confirm">
+                                <span>Confirm</span>
+                            </div>
+                        </button>
+                        </a> {% endcomment %}
+
+                    {% comment %} </div> {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </section>
+            
+
+{% comment %} ------------------------------------------------------- {% endcomment %}
+
+            <section id="footer">
+                <img src="{% static 'images/MagicEraser_5660418_164818.PNG' %}" class="footer-img">
+                <div class="title-text">
+                <p>Contact us</p>
+                </div>
+            <div class="footer-row">
+            <div class="footer-left">
+                <h1>Account</h1>
+                <a href="{% url 'myapp:account'%}"><p>Login</p></a>
+                <a href="{% url 'myapp:account'%}"><p>Register</p></a>
+            </div>
+            <div class="footer-right">
+                <h1>Get In Touch</h1>
+                <p>address</p>
+                <p>email</p>
+                <p>tel</p>
+            </div>
+            </div>
+
+            <div class="social-links">
+                <a href="https://www.facebook.com/Phefluffy-110994267269264/"><i class="fa-brands fa-square-facebook fa-xl"></i></a>
+                <a href="https://www.instagram.com/phefluffy/"><i class="fa-brands fa-instagram fa-xl"></i></a>
+                <a href="https://shop.line.me/@317lcvbv"><i class="fa-brands fa-line fa-xl"></i></a>
+                <p>Copyright - PHEFLUFFY Officials</p>
+            </div>
+
+            </section>
+
+    </body>
+</html>

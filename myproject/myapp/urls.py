@@ -22,7 +22,7 @@ app_name = 'myapp'
 
 urlpatterns = [
 
-    path('', views.Home.as_view(), name='Home'),
+    path('', views.Home, name='Home'),
     # path('bestseller/', views.bestseller, name='bestseller'),
     # path('new/', views.new, name='new'),
 
@@ -31,10 +31,10 @@ urlpatterns = [
     # path('product-detail/<id>/', ProductDetailView.as_view(), name='productdetail'),
     path('product/<int:pk>/', ProductDetailView.as_view(), name='product_detail'),
 
-    path('products/', ProductsView.as_view(), name='products'),
+    path('products/', views.Product, name='products'),
     # path('products/<slug>', ProductsView.as_view(), name='products'),
 
-    path('about/', about.as_view(), name='about'),
+    path('about/', views.about, name='about'),
 
     path('acc/', views.account, name='account'),
     path('register/', views.reg, name='Reg'),
