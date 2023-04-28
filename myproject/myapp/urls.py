@@ -28,11 +28,12 @@ urlpatterns = [
     # path('new/', views.new, name='new'),
 
 
-    path('product-detail/', views.productdetail, name='productdetail'),
-    # path('product-detail/<id>/', ProductDetailView.as_view(), name='productdetail'),
-    path('product/<int:pk>/', views.products, name='product_detail'),
+    path('productdetail/', views.productdetail, name='productdetail'),
+    # path('product-detail/<id>/', views.products, name='product_detail'),
+    # path('product/<int:pk>/', views.products, name='product_detail'),
 
     path('products/', views.products, name='products'),
+   
     # path('products/<slug>', ProductsView.as_view(), name='products'),
 
     path('about/', views.about, name='about'),
@@ -49,7 +50,7 @@ urlpatterns = [
 
     path('payment/', views.Payment, name='payment'),
 
-
+    # path('get_image_urls/', get_image_urls, name='get_image_urls'),
     
 
     # path('orderplace/', views.)

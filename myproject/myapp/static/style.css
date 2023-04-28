@@ -263,6 +263,9 @@ small{
     margin-top: 80px;
     padding: 5px;
 }
+.row .col-4{
+    cursor: pointer;
+}
 select{
     border-radius: 2px solid #157c5b;
     padding: 5px;

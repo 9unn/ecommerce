@@ -11,6 +11,8 @@ from myapp.models import *
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from myapp.models import Product
+import os
+
 
 # def login(request):
 #    if request.method == "POST": 
@@ -103,14 +105,9 @@ class regView(CreateView):
         return reverse('home')
 
 
-# class Home(View):
-#     template_name = 'home.html'
-
 def Home(request):
     return render(request,'home.html', {'Home':Home})
 
-# class about(View):
-#     template_name = 'about.html'
 
 def about(request):
     return render(request, "about.html", {'about':about})
@@ -137,16 +134,16 @@ def account(request):
         # return obj
 
 def productdetail(request):
-    productdetail = get_object_or_404(Product, id=1)
-    if 'product_title' in request.COOKIES:            
-        product_title = request.COOKIES['product_title']
-        counter = product_title.split('|')
-        product_count_in_cart = len(set(counter))
-    else:
-        product_count_in_cart = 0
-        context = {
-        'p': productdetail,
-        'product_count_in_cart': product_count_in_cart,}
+    # productdetail = get_object_or_404(Product, id=1)
+    # if 'product_title' in request.COOKIES:            
+    #     product_title = request.COOKIES['product_title']
+    #     counter = product_title.split('|')
+    #     product_count_in_cart = len(set(counter))
+    # else:
+    #     product_count_in_cart = 0
+    #     context = {
+    #     'p': productdetail,
+    #     'product_count_in_cart': product_count_in_cart,}
     return render(request, "productdetail.html",  {'productdetail':productdetail})
 
 
@@ -342,7 +339,18 @@ def address(request):
     return render(request,'address.html',{'addressForm':addressForm,'product_in_cart':product_in_cart})
 
 
+from django.conf import settings
 
+# def get_image_urls(request):
+#     # image_dir = os.path.join(settings.STATIC_ROOT, 'images')
+#     # image_files = [f for f in os.listdir(image_dir) if os.path.isfile(os.path.join(image_dir, f))]
+#     # image_urls = [request.build_absolute_uri(os.path.join(settings.STATIC_URL, 'images', f)) for f in image_files if f.endswith('.jpg') or f.endswith('.jpeg') or f.endswith('.png')]
+#     # context = {'image_urls': image_urls}
+#     image_list = ['image_19-4-2566_BE_at_15.22_1.jpg', 
+#                   'images/Image_19-4-2566_BE_at_15.24_1.jpg', 
+#                   'images/Image_19-4-2566_BE_at_02.45_3.jpg']
+#     context = {'image_list': image_list}
+#     return render(request, 'product_list.html', context)
 
 
 

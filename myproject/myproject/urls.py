@@ -27,3 +27,7 @@ urlpatterns = [
     # path('reg/', views.reg, name='Reg'),
     
 ]
+
+from django.conf import settings
+from django.conf.urls.static import static
+urlpatterns = urlpatterns + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

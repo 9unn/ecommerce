@@ -57,15 +57,15 @@
                  </select>
             </div>
 
-            <ul>
-                {% for product in object_list %}
-                <li>
-                    <a href="{% url 'productdetail' product.pk  %}">
-                            {{ product.pk }} {{ product.title }}
-                    </a> - {{ product.selling_price }}
-                </li>
-                {% endfor %}
-            </ul>
+            {% for p in products %}
+                <div class="row">
+                    <div class="col-4">
+                        <img src="{{p.product_image}}">
+                        <h4>{{p.title}}</h4>
+                        <p>{{p.selling_price}}</p> 
+                    </div>
+                </div>
+            {% endfor %}
                 {% comment %} <div class="page-btn">
                     <span>1</span>
                     <span>2</span>
