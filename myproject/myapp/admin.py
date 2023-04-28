@@ -26,7 +26,14 @@ class OrderModelAdmin(admin.ModelAdmin):
 class PaymentModelAdmin(admin.ModelAdmin):
     list_display = ['id','user','amount', 'rezorpay_order_id','rezorpay_payment_status','rezorpay_payment_id','paid']
 
+# class TransactionAdmin(admin.ModelAdmin):
+#     pass
+# admin.site.register(Transaction, TransactionAdmin)
 
+class OrderAdmin(admin.ModelAdmin):
+    # pass
+    list_display = ['user', 'order_ids', 'product']
+admin.site.register(Order, OrderAdmin)
 # class TransactionAdmin(admin.ModelAdmin):
 #     pass
 # admin.site.register(Transaction, TransactionAdmin)

@@ -10,6 +10,7 @@ from django.views.generic import DetailView, ListView, CreateView, FormView, Vie
 from myapp.models import *
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
+from myapp.models import Product
 
 # def login(request):
 #    if request.method == "POST": 
@@ -122,9 +123,9 @@ def account(request):
 #     model = Product
 #     template_name = "productdetail.html"
 
-class ProductDetailView(DetailView):
-    model = Product
-    template_name = 'productdetail.html'
+# class ProductDetailView(DetailView):
+#     model = Product
+#     template_name = 'productdetail.html'
 
     def get_object(self, queryset=None):
         if queryset is None:
@@ -135,58 +136,50 @@ class ProductDetailView(DetailView):
         # obj = get_object_or_404(queryset, id = product_code)
         # return obj
 
-    def productdetail(request):
-        productdetail = get_object_or_404(models.Product)
-        if 'product_title' in request.COOKIES:            
-            product_title = request.COOKIES['product_title']
-            counter = product_title.split('|')
-            product_count_in_cart = len(set(counter))
-        else:
-            product_count_in_cart = 0
-            context = {
-            'p': productdetail,
-            'product_count_in_cart': product_count_in_cart,}
-        return render(request, "productdetail.html",  {'productdetail':productdetail})
+def productdetail(request):
+    productdetail = get_object_or_404(Product, id=1)
+    if 'product_title' in request.COOKIES:            
+        product_title = request.COOKIES['product_title']
+        counter = product_title.split('|')
+        product_count_in_cart = len(set(counter))
+    else:
+        product_count_in_cart = 0
+        context = {
+        'p': productdetail,
+        'product_count_in_cart': product_count_in_cart,}
+    return render(request, "productdetail.html",  {'productdetail':productdetail})
 
 
-class ProductsView(ListView):
-    model = Product
-    template = 'products.html'
+# class Products(ListView):
+#     model = Product
+#     template = 'products_list.html'
 
-    def products(request):
-        products = models.Product.objects.all()
-        if 'product_title' in request.COOKIES:
-            product_title = request.COOKIES['product_title']
-            counter = product_title.split('|')
-            product_count_in_cart=len(set(counter)) 
+def products(request):
+    products = Product.objects.all()
+    context = {'products': products}
+    return render(request, 'product_list.html', context)
 
-        else:
-            product_count_in_cart = 0
-            context = {
-            'p': products,
-            'product_count_in_cart': product_count_in_cart,}
-        # if request.user.is_authenticated:
-            return HttpResponseRedirect('products')
-        return render(request,'products_list.html', {'product_count_in_cart':product_count_in_cart})
+# def products(request):
+#     products = models.Product.objects.all()
+
+    # for p in products:
+    #     print(p.title)
 
 
-# def Order(request):
-#     Order = models.Order.objects.all()
-#     if 'order_ids' in request.COOKIES:
-#         order_ids = request.COOKIES['order_ids']
+    # if 'product_title' in request.COOKIES:
+    #     product_title = request.COOKIES['product_title']
+    #     counter = product_title.split('|')
+    #     product_count_in_cart=len(set(counter)) 
 
-#         products = None
-#         total=0
-#     
-#         product_id_in_cart = products.split()
-#    
-#     if  request.user.is_authenticated
-        #   product_id_in_cart = products.split()
-#         products = models.Product.objects.all().filter(id__in = product_id_in_cart)
-        
-#         for p in products:
-#             total = total + p.price
-#     return render(request, "order.html", {'products':products,'total':total,'order':Order})
+    # else:
+    #     product_count_in_cart = 0
+    #     context = {
+    #     'p': products,
+    #     'product_count_in_cart': product_count_in_cart,}
+    # # if request.user.is_authenticated:
+    #     return HttpResponseRedirect('Products')
+    # return render(request,'products_list.html', {'products':products,'product_count_in_cart':product_count_in_cart})
+
 
 # def top(request):
 #     top = models.top.objects.all()
@@ -201,21 +194,21 @@ class ProductsView(ListView):
 #     return render(request, "logout.html", {'logout':logout})
 
 
-def bestseller(request):
-    bestseller = models.bestseller.object.all()
-    if request.user.is_autheticated:
-        return HttpResponseRedirect('bestseller')
-    return render(request, "home.html", {'bestseller':bestseller})
+# def bestseller(request):
+#     bestseller = models.bestseller.object.all()
+#     if request.user.is_autheticated:
+#         return HttpResponseRedirect('bestseller')
+#     return render(request, "home.html", {'bestseller':bestseller})
 
 
-def new(request):
-    new = models.new.object.all()
-    if 'new' in request.COOKIES:
-        new = request.COOKIES['new']
+# def new(request):
+#     new = models.new.object.all()
+#     if 'new' in request.COOKIES:
+#         new = request.COOKIES['new']
 
-    if request.user.is_autheticated:
-        return HttpResponseRedirect('new')
-    return render(request, "home.html", {'new':new})
+#     if request.user.is_autheticated:
+#         return HttpResponseRedirect('new')
+#     return render(request, "home.html", {'new':new})
 
 
 def add_to_cart_view(request,pk):

@@ -18,6 +18,7 @@ from django.urls import path
 from myapp import views
 from .views import *
 
+
 app_name = 'myapp'
 
 urlpatterns = [
@@ -27,11 +28,11 @@ urlpatterns = [
     # path('new/', views.new, name='new'),
 
 
-    path('product-detail/', ProductDetailView.as_view(), name='productdetail'),
+    path('product-detail/', views.productdetail, name='productdetail'),
     # path('product-detail/<id>/', ProductDetailView.as_view(), name='productdetail'),
-    path('product/<int:pk>/', ProductDetailView.as_view(), name='product_detail'),
+    path('product/<int:pk>/', views.products, name='product_detail'),
 
-    path('products/', views.Product, name='products'),
+    path('products/', views.products, name='products'),
     # path('products/<slug>', ProductsView.as_view(), name='products'),
 
     path('about/', views.about, name='about'),
@@ -46,6 +47,7 @@ urlpatterns = [
     path('remove-from-cart/<int:pk>', views.remove_from_cart_view,name='remove-from-cart'),
     path('address', views.address,name='address'),
 
+    path('payment/', views.Payment, name='payment'),
 
 
     
