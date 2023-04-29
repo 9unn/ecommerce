@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/fontawesome.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0">
-        
+        <link rel="stylesheet" href="https://fontawesome.com/icons/trash?f=classic&s=light">
 
     </head>
     <body>
@@ -51,24 +51,28 @@
                 <h2>Order</h2>
             </div>
 
-            {% for p in products %}
-            {% if p %}
+            {% for o in order %}
+            {% if o %}
             <div class="small-container order">
-                <div class="row">{{ forloop.counter }}</div>
+                <div class="row">
                     <div class="orderitems">
                         <div>
-                            <img src="{{ p.product_image }}" class="img-cart" style="width: 120px;">
+                            <img src="{{ p.product_image }}" class="img-order">
 
                             <div class="orderdetail">
-                                <p>{{ p.title }}</p>
-                                <p>{{ p.description }}</p>
+                                <p>{{ o.product }}</p>
+                                <p>{{ o.selling_price }}</p>
+                                <P>{{ o.quantity }}</p>
+                                <P>{{ o.product_image }}</p>
+
+
                             </div>
 
                         </div>
 
-                        <div>
+                        {% comment %} <div>
                             <p>{{ p.category }}</p>
-                        </div>
+                        </div> {% endcomment %}
                         <div>
                             <a href="{% url 'myapp:remove-from-cart' p.id  %}?next_page={{request.path}}"> Delete </a>
                         </div>
@@ -83,21 +87,44 @@
                             <p>฿{{ total }}</p>
                         </div> {% endcomment %} 
 
-                        <div class="totalprice">
-                            <p>Total Price</p>
-                            <p>฿{{ total }}</p>
+                    <div class='col-2-order'>
+                        <img src="{% static 'images/Image 19-4-2566 BE at 11.38.jpg' %} " id='order-img'>
+                            
+                        <div class='man'>
+                             
+                            <p>Mandarin collar </p>
+                            <p class='quan'>1</p>
+                            <p class='price'>฿ 215</p>
+
                         </div>
 
-                        <a href="{% url 'myapp:payment'%}">
-                        <button type="button" class="btn">
-                            <div class="confirm">
-                                <span>Confirm</span>
-                            </div>
-                        </button>
-                        </a>
+                        <img src="{% static 'images/messageImage_1682068085855.jpg' %} " id='order-img'>
+                        <hr/>
+                        <div class='man'>
+                            
+                            <p>Semi pants(white)</p>
+                            <p class='quan'>1</p>
+                            <p class='price'>฿ 390</p>
+
+                        </div>
+                     
 
                     </div>
-                </div>
+                    
+                    <div class="totalprice">
+                        <p>Total Price</p>
+                        <p>฿ 605</p>
+                    </div>
+
+                    <a href="{% url 'myapp:payment'%}">
+                    <button type="button" class="btn">
+                        <div class="confirm">
+                            <span>Confirm</span>
+                        </div>
+                    </button>
+                    </a>
+
+                    
             </div>
         </div>
     </section>

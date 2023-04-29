@@ -44,72 +44,81 @@
 
 {% comment %} ------------------------------- {% endcomment %}
 
-    <section class="order">
+    <section class="payment">
         <div class="small-container">
             <div class="row row-2">
                 <h2>Payment</h2>
             </div>
 
-            {% for m in Payment %}
-            {% if m %}
+            {% for o in order %}
+            {% if o %}
             <div class="small-container payment">
-                <div class="row">{{ forloop.counter }}
-                    <div class="payment">
+                <div class="row">
+                    <div class="paymentdetail">
                         <div>
-                            {% comment %} <img src="{{ p.product_image }}" class="img-cart" style="width: 120px;"> {% endcomment %}
+                            <img src="{{ p.product_image }}" class="img-pay">
 
-                            <div class="payment">
-
-                                <p>{{ m.user }}</p>
-                                <p>{{ m.rezorpay_order_id }}</p>
-                                <p>{{ m.rezorpay_payment_status }}</p>
-                                <p>{{ m.rezorpay_payment_id }}</p>
-        
-        
+                            <div class="orderdetail">
+                                <p>{{ o.product }}</p>
+                                <p>{{ o.selling_price }}</p>
+                                <P>{{ o.quantity }}</p>
+                                <P>{{ o.product_image }}</p>
                             </div>
-
                         </div>
 
-                        <div>
-                            <p>{{ m.amount }}</p>
-                        </div>
-                        {% comment %} <div>
-                            <a href="{% url 'myapp:remove-from-cart' p.id  %}?next_page={{request.path}}"> Delete </a>
-                        </div> {% endcomment %}
-                    </div>
-                </div>
-            </div>
             {%endif%}
             {%endfor%}
 
+                        <div class="col-2-payment">    
+                            <h3>Address</h3>
+                            <div class="address">
+                                
+                                {% comment %} <p class="name">Panicha Taechasettakul</p>
+                                <p class="address">169/706 Kave ava หมู่ 7 ถนนเชียงราก <br>
+                                ตำบลคลองหนึ่ง Pathum Thani,Khlong Luang 
+                                12120</p>
+                                <p class="tel">Tel: 0929635322</p> {% endcomment %}
+
+                            </div>
+                            <a href="refund.html">
+                                <button type="button" class="btn">
+                                <div class="Ok">
+                                    <span>OK</span>
+                                </div>
+                                </button>
+                            </a>
+ 
+                        </div>
+                    
+                    <div class="ordersum"><hr/>
+                    <br>
+                        <p>Order Summary</p>
+                        <p>Subtotal (2 items)</p>
+                        <p>Shipping fee</p>
+                        <p>Total :</p>
+                    </div>
+
+                    <div class="summary">
+                        <br>
+                        <p>฿ 605</p>
+                        <p>฿ 0</p>
+                        <p>฿ 605</p>
+                    </div>
+
+                    <img src="{% static 'images/IMG_5601.JPG'%}" id='qr'>
+
+                    <a href="{% url 'myapp:payment'%}">
+                    <button type="button" class="btn">
+                        <div class="confirm">
+                            <span>Confirm</span>
+                        </div>
+                    </button>
+                    </a>
+
+                    
+            </div>
         </div>
     </section>
-                
-            
-
-
-                <!-- <div class="col-lg-4 col-xl-3"> -->
-
-                        {% comment %} <div class="subtptal" style="font-weight: 500;">
-                            <p>Subtotal</p>
-                            <p>฿{{ total }}</p>
-                        </div> {% endcomment %} 
-
-                        {% comment %} <div class="totalprice">
-                            <p>Total Price</p>
-                            <p>฿{{ total }}</p>
-                        </div> {% endcomment %}
-
-                        {% comment %} <a href="myapp:refund">
-                        <button type="button" class="btn">
-                            <div class="confirm">
-                                <span>Confirm</span>
-                            </div>
-                        </button>
-                        </a> {% endcomment %}
-
-                    {% comment %} </div> {% endcomment %}
-                
     
             
 

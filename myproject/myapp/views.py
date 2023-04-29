@@ -12,6 +12,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from myapp.models import Product
 import os
+import libscrc
+import qrcode
 
 
 # def login(request):
@@ -115,7 +117,11 @@ def about(request):
 def account(request):
     return render(request, "account.html", {'account':account})
 
+def payment(request):
+    return render(request, "payment.html", {'payment':payment})
 
+def refund(request):
+    return render(request,'refund.html',{'refund':refund})
 # class ProductDetailView(DetailView):
 #     model = Product
 #     template_name = "productdetail.html"
@@ -342,19 +348,42 @@ def address(request):
 from django.conf import settings
 
 # def get_image_urls(request):
-#     # image_dir = os.path.join(settings.STATIC_ROOT, 'images')
-#     # image_files = [f for f in os.listdir(image_dir) if os.path.isfile(os.path.join(image_dir, f))]
-#     # image_urls = [request.build_absolute_uri(os.path.join(settings.STATIC_URL, 'images', f)) for f in image_files if f.endswith('.jpg') or f.endswith('.jpeg') or f.endswith('.png')]
-#     # context = {'image_urls': image_urls}
-#     image_list = ['image_19-4-2566_BE_at_15.22_1.jpg', 
-#                   'images/Image_19-4-2566_BE_at_15.24_1.jpg', 
-#                   'images/Image_19-4-2566_BE_at_02.45_3.jpg']
-#     context = {'image_list': image_list}
+#     image_dir = os.path.join(settings.STATIC_ROOT, 'images')
+#     image_files = [f for f in os.listdir(image_dir) if os.path.isfile(os.path.join(image_dir, f))]
+#     image_urls = [request.build_absolute_uri(os.path.join(settings.STATIC_URL, 'images', f)) for f in image_files if f.endswith('.jpg') or f.endswith('.jpeg') or f.endswith('.png')]
+#     context = {'image_urls': image_urls}
+#     # image_list = ['image_19-4-2566_BE_at_15.22_1.jpg', 
+#     #               'images/Image_19-4-2566_BE_at_15.24_1.jpg', 
+#     #               'images/Image_19-4-2566_BE_at_02.45_3.jpg']
+#     # context = {'image_list': image_list}
 #     return render(request, 'product_list.html', context)
 
-
-
-
-
+def get_qr(request,mobile="", amount=""):
+    code="00020101021153037645802TH29370016A000000677010111"
+    if mobile:
+        tag,value = 1,"0066"+mobile[1:]
+        seller = f"{tag:02d}{len(value):02d}{value}"
+        print(seller)
+    else:
+        raise Exception("Error: gen_code() does not get seller mandatory details")
+    code+=seller
+    tag,value = 54, f'{float(amount):.2f}'
+    code+=f"{tag:02d}{len(value):02d}{value}"
+    code+='6304'
+    crc = libscrc.ccitt_false(str.encode(code))
+    crc = str(hex(crc))
+    crc = crc[2:].upper()
+    code+=crc.rjust(4, '0')
+    message="mobile: %s, amount: %s"%(mobile,amount)
+    img = qrcode.make(code,box_size=4)
+    # response = HttpResponse(content_type='image/png')
+    # # response = HttpResponse(content_type='text/html; charset=utf-8')
+    # response['Content-Type'] = 'text/html; charset=UTF-8'
+    # img.save(response, "PNG")
+    # return response
+    response = HttpResponse(content_type='image/png')
+    response['Content-Type'] = 'text/html; charset=utf-8'
+    img.save(response, "PNG")
+    return response
 
 

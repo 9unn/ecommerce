@@ -48,7 +48,10 @@ urlpatterns = [
     path('remove-from-cart/<int:pk>', views.remove_from_cart_view,name='remove-from-cart'),
     path('address', views.address,name='address'),
 
-    path('payment/', views.Payment, name='payment'),
+    path('payment/', views.payment, name='payment'),
+
+    path('refund/', views.refund, name='refund'),
+    path('refund/linktr.ee/Phefluffy', views.refund, name='refund'),
 
     # path('get_image_urls/', get_image_urls, name='get_image_urls'),
     

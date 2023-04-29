@@ -61,7 +61,7 @@ class Order(models.Model):
     product = models.CharField(max_length=200)
     selling_price = models.PositiveBigIntegerField()
     quantity = models.PositiveIntegerField(default=1)
-    product_image = models.ImageField(upload_to='images', default='default_value')
+    product_image = models.ImageField(upload_to='images')
 
     def __str__(self):
         return "%s"%(self.pk)

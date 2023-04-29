@@ -47,7 +47,7 @@
         <section class="order">
         <div class="small-container">
             <div class="row row-2">
-                <h2>Refund</h2>
+                <h2>Order Detail</h2>
             </div>
 
             {% for o in Order %}
@@ -71,23 +71,42 @@
                         <div>
                             <p>{{ o.quantity }}</p>
                         </div>
-                        {% comment %} <div>
-                            <a href="{% url 'myapp:remove-from-cart' p.id  %}?next_page={{request.path}}"> Delete </a>
-                        </div> {% endcomment %}
-                
+                        
             {%endif%}
             {%endfor%}
+                            
+                        <div class='ref'>
+                             
+                            {% comment %} <p>order id: 251736</p> {% endcomment %}
+                            <p class='sta'>status: Delivered</p>
 
-                <!-- <div class="col-lg-4 col-xl-3"> -->
+                        </div>
 
-                        {% comment %} <div class="subtptal" style="font-weight: 500;">
-                            <p>Subtotal</p>
-                            <p>฿{{ total }}</p>
-                        </div> {% endcomment %} 
+                        <div class='col-2-refund'>
+                        <img src="{% static 'images/Image 19-4-2566 BE at 11.38.jpg' %} " id='order-img'>
+                            
+                        <div class='man'>
+                             
+                            <p>Mandarin collar </p>
+                            <p class='quan'>1</p>
+                            <p class='price'>฿ 215</p>
 
-                        <div class="totalprice">
-                            <p>Total Price</p>
-                            <p>฿{{ total }}</p>
+                        </div>
+
+                        <img src="{% static 'images/messageImage_1682068085855.jpg' %} " id='order-img'>
+                        
+                        <div class='man'>
+                            
+                            <p>Semi pants(white)</p>
+                            <p class='quan'>1</p>
+                            <p class='price'>฿ 390</p>
+
+                        </div>
+                    <hr/>
+                    </div>
+
+                        <div>
+                            <p>* Your parcel has been delivered. Recipient: Customer If you haven't received your item or have problem with it, you can initiate a refund/return request, click here.</p>
                         </div>
 
                         <a href="linktr.ee/Phefluffy">
